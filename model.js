@@ -22,7 +22,6 @@ async function getGamesList() {
       }
     });
     const arrayOfGames = response.json();
-  
     return arrayOfGames;
   }
 

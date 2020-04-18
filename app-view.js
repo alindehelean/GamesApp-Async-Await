@@ -96,10 +96,14 @@ function createDomElement(gameObj){
         const updatedGameDescription = updateGameElement.querySelector('#gameDescription').value;
         const updatedGameImage = updateGameElement.querySelector('#gameImageUrl').value;
         
-        function editedDom(){
-        gameELement.querySelector('h1').innerHTML = updatedGameTitle;
-        gameELement.querySelector('p').innerHTML = updatedGameDescription;
-        gameELement.querySelector('img').src = updatedGameImage;
+       async function editedDom(){
+            try{
+        gameELement.querySelector('h1').innerHTML = await updatedGameTitle;
+        gameELement.querySelector('p').innerHTML = await updatedGameDescription;
+        gameELement.querySelector('img').src = await updatedGameImage;
+            }catch{
+                console.log("Error");
+            }
         }
     
         var urlEncoded = new URLSearchParams();

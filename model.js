@@ -103,7 +103,7 @@ async function updateGameRequest(gameid,updatedGameObj){
         body: updatedGameObj
     });
     const updatedResponse = response.json();
-    return updatedResponse;
+    return updatedResponse; 
 }
 
 // Difference

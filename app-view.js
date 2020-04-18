@@ -5,12 +5,6 @@
 //     }
 // });
 
-// getGamesList().then(arrayOfGames =>{
-//     for(var i = 0; i < arrayOfGames.length; i++) {
-//         createDomElement(arrayOfGames[i]);
-//     }
-// });
-
 async function startApp() {
     try{
         const arrayOfGames = await getGamesList();
@@ -75,11 +69,6 @@ function createDomElement(gameObj){
             // removeDeletedElementFromDOM(event.target.parentElement);
             // })
 
-            // deleteGame(gameELement.getAttribute("id")).then(apiResponse => {
-            //     console.log(apiResponse);
-            //     removeDeletedElementFromDOM(event.target.parentElement);
-            // })
-
         async function removeGameFromApp(){
             try{
                 const apiresponse = await deleteGame(gameELement.getAttribute("id"));
@@ -119,8 +108,6 @@ function createDomElement(gameObj){
         urlEncoded.append("imageUrl", updatedGameImage);
          
             // updateGameRequest(gameELement.getAttribute("id"), urlEncoded,editedDom);  
-
-            // updateGameRequest(gameELement.getAttribute("id"),urlEncoded).then(editedDom);
 
             async function appUpdateGameRequest(){
                 try{
@@ -174,7 +161,6 @@ function buildErrorMessage(inputEl, errosMsg){
     inputEl.after(errorMsgElement);
 }
 
-
 document.querySelector(".submitBtn").addEventListener("click", function(event){
     event.preventDefault();
 
@@ -202,8 +188,6 @@ document.querySelector(".submitBtn").addEventListener("click", function(event){
         urlencoded.append("description", gameDescription.value);
 
         // createGameRequest(urlencoded, createDomElement);
-
-        // createGameRequest(urlencoded).then(createDomElement);
 
         async function appCreateGameRequest(){
             try{

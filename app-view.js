@@ -30,35 +30,9 @@ function createDomElement(gameObj){
                             <button class="delete-btn">Delete Game</button>
                             <button class="update-btn">Edit Game</button>`; 
                         
-    const updateGameElement = document.createElement("div");
-    updateGameElement.setAttribute("class","update");
-    updateGameElement.innerHTML = `<form class="updateForm">
-                                    <label for="gameTitle">Title *</label>
-                                    <input type="text" value="" name="gameTitle" id="gameTitle"/>
-                                    <label for="gameDescription">Description</label>
-                                    <textarea name="gameDescription" id="gameDescription"></textarea>
-                                    <label for="gameImageUrl">Image URL *</label>
-                                    <input type="text" name="gameImageUrl" id="gameImageUrl"/>
-                                    <button class="editBtn">Save Changes</button>
-                                    <button class="cancelBtn">Cancel</button>
-                                  </form>`;
-
+    
     container1.appendChild(gameELement);
 
-    function clone(gameELement,updateGameElement) {
-        const copiedGameTitle = gameELement.childNodes[0].innerText; 
-        const copiedGameDescription = gameELement.childNodes[4].innerText;
-        const copiedGameUrl = gameELement.childNodes[2].getAttribute("src");
-        //console.log(copiedGameUrl);
-        //console.log(copiedGameDescription);
-        //console.log(copiedGameTitle);
-        const newGameTitle = updateGameElement.childNodes[0][0]; 
-        newGameTitle.value += copiedGameTitle; 
-        const newGameDescription = updateGameElement.childNodes[0][1];
-        newGameDescription.value += copiedGameDescription;
-        const newImageUrl = updateGameElement.childNodes[0][2];
-        newImageUrl.value += copiedGameUrl;
-    }
 
     document.getElementById(`${gameObj._id}`).addEventListener("click", function(event){
         console.log(event.target);
@@ -71,7 +45,7 @@ function createDomElement(gameObj){
 
         async function removeGameFromApp(){
             try{
-                const apiresponse = await deleteGame(gameELement.getAttribute("id"));
+                const apiresponse = await deleteGame(event.target.parentElement.getAttribute("id"));
                 console.log(apiresponse);
                 removeDeletedElementFromDOM(event.target.parentElement);
             }catch{
@@ -83,18 +57,31 @@ function createDomElement(gameObj){
 
 
         } else if(event.target.classList.contains('update-btn')){
+            const updateGameElement = document.createElement("div");
+            updateGameElement.setAttribute("class","update");
+            updateGameElement.innerHTML = `<form class="updateForm">
+                                    <label for="gameTitle">Title *</label>
+                                    <input type="text" value="" name="gameTitle" id="gameTitle"/>
+                                    <label for="gameDescription">Description</label>
+                                    <textarea name="gameDescription" id="gameDescription"></textarea>
+                                    <label for="gameImageUrl">Image URL *</label>
+                                    <input type="text" name="gameImageUrl" id="gameImageUrl"/>
+                                    <button class="editBtn">Save Changes</button>
+                                    <button class="cancelBtn">Cancel</button>
+                                  </form>`;
+
             gameELement.appendChild(updateGameElement);
             clone(gameELement,updateGameElement);
             //console.log('ceva');
             //console.log(updateGameElement);
         } else if(event.target.classList.contains('cancelBtn')){
-            removeDeletedElementFromDOM(updateGameElement);
+            removeDeletedElementFromDOM(event.target.parentElement.parentElement);
         } else if(event.target.classList.contains('editBtn')){
             event.preventDefault();
     
-        const updatedGameTitle = updateGameElement.querySelector('#gameTitle').value;
-        const updatedGameDescription = updateGameElement.querySelector('#gameDescription').value;
-        const updatedGameImage = updateGameElement.querySelector('#gameImageUrl').value;
+        const updatedGameTitle = event.target.parentElement.querySelector('#gameTitle').value;
+        const updatedGameDescription = event.target.parentElement.querySelector('#gameDescription').value;
+        const updatedGameImage = event.target.parentElement.querySelector('#gameImageUrl').value;
         
        async function editedDom(){
             try{
@@ -125,12 +112,26 @@ function createDomElement(gameObj){
 
             appUpdateGameRequest();
 
-            removeDeletedElementFromDOM(updateGameElement); 
+            removeDeletedElementFromDOM(event.target.parentElement.parentElement); 
 
         }
     });
 }
 
+function clone(divELement,updateDivElement) {
+    const copiedGameTitle = divELement.querySelector("h1").innerText; 
+    const copiedGameDescription = divELement.querySelector("p").innerText;
+    const copiedGameUrl = divELement.querySelector("img").getAttribute("src");
+    //console.log(copiedGameUrl);
+    //console.log(copiedGameDescription);
+    //console.log(copiedGameTitle);
+    const newGameTitle = updateDivElement.querySelector('input[name="gameTitle"]'); 
+    newGameTitle.value += copiedGameTitle; 
+    const newGameDescription = updateDivElement.querySelector('textarea');
+    newGameDescription.value += copiedGameDescription;
+    const newImageUrl = updateDivElement.querySelector('input[name="gameImageUrl"]');
+    newImageUrl.value += copiedGameUrl;
+}
 
 function removeDeletedElementFromDOM(domElement){
     domElement.remove();
